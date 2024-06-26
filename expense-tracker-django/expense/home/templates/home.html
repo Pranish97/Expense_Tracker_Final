@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </script>
+    {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Welcome to Expense Tracker</title>
+</head>
+
+<body>
+<nav class="navbar">
+  <header>
+      <div class="image-text">
+          <span class="image">
+            <img src="{% static 'img/logo.png' %}" alt="logo" />
+          </span>
+          <div class=" text header-text">
+              <span class="name">Expense Tracker</span>
+          </div>
+      </div>
+
+  </header>
+  <div class="menu-bar">
+      <div class="menu">
+
+          <p class="menu-text">Menu</p>
+          <ul class="menu-links">
+              <li class="nav-link">
+
+                  <a href="/">
+                      <i class='bx bx-home icon'></i>
+                      <span class="text nav-text">Home</span>
+                  </a>
+              </li>
+              <li class="nav-link">
+                  <a href="/recommend">
+                    <i class='bx bx-category icon'></i>
+                      <span class="text nav-text">Recommend</span>
+                  </a>
+              </li>
+              <li class="nav-link">
+                <a href="{% url 'budget_profile' %}">
+                  <i class='bx bx-dollar icon'></i>
+                    <span class="text nav-text">Budget</span>
+                </a>
+            </li>
+            <li class="nav-link">
+              <a href="/set_limit">
+                <i class='bx bx-tachometer icon'></i>
+                  <span class="text nav-text">Set Limit</span>
+              </a>
+          </li>
+          <li class="nav-link">
+            <a href="/forecast">
+              <i class='bx bx-bar-chart-alt icon'></i>
+                <span class="text nav-text">Forecast</span>
+            </a>
+        </li>
+
+          </ul>
+      </div>
+      <div class="bottom-content">
+          <li>
+              <a href="{% url 'update_profile' %}">
+                  <i class='bx bx-user icon'></i>
+                  <span class="text nav-text">Profile</span>
+              </a>
+          </li>
+          <li>
+              <a href="/logout">
+                  <i class='bx bx-log-out icon'></i>
+                  <span class="text nav-text">Logout</span>
+              </a>
+          </li>
+      </div>
+  </div>
+</nav>
+
+<div class="graph">
+  <h1>User Expense History</h1>
+  <canvas id="expenseChart"></canvas>
+</div>
+
+<div class="container">
+  <h1 class="title">Expense Tracker - Track Your Expenses</h1>
+  <div class="balance-box">
+  <h4 class="balance">Your Balance</h4>
+  <h1 class="balance" id="balance">${{ profile.balance }}</h1>
+
+  <div class="inc-exp-container">
+    <div>
+      <h4 class="income">Income</h4>
+      <p id="money-plus" class="money plus">+${{ profile.income }}</p>
+    </div>
+    <div>
+      <h4 class="exp">Expense</h4>
+      <p id="money-minus" class="money minus">-${{ profile.expenses }}</p>
+    </div>
+  </div>
+  </div>
+
+  <div class="history-box">
+  <h3>History</h3>
+  <ul id="list" class="list">
+    {% for expense in expenses %}
+    <li
+      class="{% if expense.expense_type == 'Positive' %}plus{% else %}minus{% endif %}"
+    >
+      <!-- {{ expense.name }}
+      <span
+        >{% if expense.expense_type == 'Positive' %}+{% else %}-{% endif %}
+        ${{expense.amount}}</span
+      > -->
+      <div class="expense-info">
+        <span>{{expense.name}} ({{ expense.subcategory  }})</span>
+        <span class="color: {% if expense.expense_type == 'Positive' %}plus{% else %}minus{% endif %}">({% if expense.expense_type == 'Positive' %}+{% else %}-{% endif %} ${{ expense.amount }})</span>
+    </div>
+      <form method="POST" style="display: inline">
+        {% csrf_token %}
+        <input type="hidden" name="expense_id" value="{{ expense.id }}" />
+        <button type="submit" name="edit" class="update-btn"><i class='bx bxs-edit'></i></button>
+      </form>
+      <form method="POST" style="display: inline">
+        {% csrf_token %}
+        <input type="hidden" name="expense_id" value="{{ expense.id }}" />
+        <button type="submit" name="delete" class="delete-btn">X</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  </div>
+
+<div class="limit-box">
+    <h3>Category Limits</h3>
+    <table id="category-limits-table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Limit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category, limit in category_limits.items %}
+            <tr id="category-limit-{{ category }}">
+                <td>{{ category }}</td>
+                <td>{{ limit }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+  <div class="add-transaction">
+    <h3>Add new transaction</h3>
+    <form id="form" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="expense_id" value="{{ expense.id }}" />
+      <div class="form-control">
+        <label for="selected_category">Please Select Category</label>
+        <br>
+        <select name="selected_category" id="selected_category" class="category">
+            {% for category in categories %}
+                <option value="{{ category }}" {% if expense and expense.name and expense.name == category %}selected{% endif %}>{{ category }}</option>
+            {% endfor %}
+        </select>
+      </div>
+      <div class="form-control">
+        <label for="amount">Amount <br />(negative - expense, positive - income)</label>
+        <input
+          type="number"
+          required
+          name="amount"
+          id="amount"
+          placeholder="Enter amount..."
+          value="{% if expense %}{{ expense.amount }}{% endif %}"
+        />
+      </div>
+      <div class="form-control">
+        <label for="expense_type">Expense Type</label>
+        <select
+          name="expense_type"
+          id="expense_type"
+          required
+          class="expense-type"
+        >
+          <option value="Positive" {% if expense and expense.expense_type == 'Positive' %}selected{% endif %}>Positive</option>
+          <option value="Negative" {% if expense and expense.expense_type == 'Negative' %}selected{% endif %}>Negative</option>
+        </select>
+      </div>
+      <button class="btn" id="btnadd" type="submit" name="{% if expense %}update{% else %}add{% endif %}">
+        {% if expense %}Update{% else %}Add{% endif %} transaction
+      </button>
+    </form>
+  </div>  
+</div>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script>
+  {% if messages %}
+      {% for message in messages %}
+          {% if message.tags == 'success' %}
+              Toastify({
+                  text: "{{ message }}",
+                  duration: 3000,
+                  gravity: "top",
+                  position: "right",
+                  backgroundColor: "linear-gradient(to right, #76c227, #81e11f)",
+                  stopOnFocus: true
+              }).showToast();
+          {% elif message.tags == 'error' %}
+              Toastify({
+                  text: "{{ message }}",
+                  duration: 3000,
+                  gravity: "top",
+                  position: "right",
+                  backgroundColor: "linear-gradient(to right, #ff6961, #ff3c38)",
+                  stopOnFocus: true
+              }).showToast();
+          {% elif message.tags == 'info' %}
+              Toastify({
+                  text: "{{ message }}",
+                  duration: 3000,
+                  gravity: "top",
+                  position: "right",
+                  backgroundColor: "linear-gradient(to right, #ffcc00, #dfc84a)",
+                  stopOnFocus: true
+              }).showToast();
+          {% endif %}
+      {% endfor %}
+  {% endif %}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+  // Retrieve data passed from Django view
+  var labels = JSON.parse('{{ labels|escapejs }}') || [];
+  var expense_data = JSON.parse('{{ expense_data|escapejs }}') || [];
+
+  // Ensure data is properly parsed
+  console.log(labels);
+  console.log(expense_data);
+
+  // Chart.js code to render the chart
+  var ctx = document.getElementById('expenseChart').getContext('2d');
+  var expenseChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: labels,
+          datasets: [{
+              label: 'Cumulative Expenses',
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1,
+              data: expense_data,
+          }]
+      },
+      options: {
+          scales: {
+              xAxes: [{
+                  type: 'time',
+                  time: {
+                      unit: 'day',
+                      displayFormats: {
+                          day: 'YYYY-MM-DD'
+                      }
+                  },
+                  scaleLabel: {
+                      display: true,
+                      labelString: 'Date'
+                  }
+              }],
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  },
+                  scaleLabel: {
+                      display: true,
+                      labelString: 'Cumulative Amount'
+                  }
+              }]
+          }
+      }
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+      const form = document.getElementById('form');
+      const isAnomaly = {{ is_anomaly|yesno:"true,false" | lower }};  // Convert to lowercase for JS boolean
+
+      form.addEventListener('submit', function(event) {
+          if (isAnomaly) {
+              const userConfirmed = confirm("This transaction is flagged as an anomaly. Do you want to proceed?");
+              
+              if (!userConfirmed) {
+                  event.preventDefault();  // Prevent form submission if user does not confirm
+              } else {
+                  const inputConfirmed = document.createElement('input');
+                  inputConfirmed.type = 'hidden';
+                  inputConfirmed.name = 'confirm_anomaly';
+                  inputConfirmed.value = 'true';
+                  form.appendChild(inputConfirmed);
+              }
+          }
+      });
+  });
+</script>
+</body>
+</html>
+

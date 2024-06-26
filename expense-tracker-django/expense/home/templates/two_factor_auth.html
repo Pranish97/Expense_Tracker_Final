@@ -1,0 +1,9 @@
+{% extends "base.html" %} {% load static %} {% block start %}
+
+<h2>Two-Factor Authentication</h2>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button class="button is-primary" type="submit">Verify</button>
+</form>
+
+{% endblock %}

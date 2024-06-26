@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    </script>
+    {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/recommend.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Welcome to Expense Tracker</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                  <img src="{% static 'img/logo.png' %}" alt="logo" />
+                </span>
+                <div class=" text header-text">
+                    <span class="name">Expense Tracker</span>
+                </div>
+            </div>
+      
+        </header>
+        <div class="menu-bar">
+            <div class="menu">
+      
+                <p class="menu-text">Menu</p>
+                <ul class="menu-links">
+                    <li class="nav-link">
+      
+                        <a href="/">
+                            <i class='bx bx-home icon'></i>
+                            <span class="text nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/recommend">
+                          <i class='bx bx-category icon'></i>
+                            <span class="text nav-text">Recommend</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="{% url 'budget_profile' %}">
+                          <i class='bx bx-dollar icon'></i>
+                            <span class="text nav-text">Budget</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/set_limit">
+                          <i class='bx bx-tachometer icon'></i>
+                            <span class="text nav-text">Set Limit</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/forecast">
+                          <i class='bx bx-bar-chart-alt icon'></i>
+                            <span class="text nav-text">Forecast</span>
+                        </a>
+                    </li>
+                   
+      
+                </ul>
+            </div>
+            <div class="bottom-content">
+                <li>
+                    <a href="{% url 'update_profile' %}">
+                        <i class='bx bx-user icon'></i>
+                        <span class="text nav-text">Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/logout">
+                        <i class='bx bx-log-out icon'></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+            </div>
+        </div>
+      </nav>
+      <div class="container">
+    <h1>Expense Recommendation System</h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <label for="selected_category">Please Select Category?</label>
+        <br>
+        <select name="selected_category" id="selected_category">
+            {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="amount">Enter your budget amount:</label>
+        <br>
+        <input type="number" name="amount" id="amount" value="100" required>
+        <br><br>
+        <button type="submit">Recommend</button>
+    </form>
+    
+    <div class="recommendation-box">
+    {% if recommended_subcategories %}
+        <h2>Recommendation for {{ selected_category_name }}:</h2>
+        <ul>
+            {% for subcategory, amount, note in recommended_subcategories %}
+                <li>{{ subcategory }}: {{ note }} : Rs {{ amount }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    </div>
+    </div>
+</body>
+</html>

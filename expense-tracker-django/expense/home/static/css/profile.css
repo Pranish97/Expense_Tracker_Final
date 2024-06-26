@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,600;1,100;1,200;1,300;1,400;1,600&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
+}
+
+
+:root{
+    --body-color:#E4E9F7;
+    --navbar-color: #FFF;
+    --primary-color:    #688fdc;
+    --primary-color-light:#F6F5FF;
+    --toggle-color:#DDD;
+    --text-color: #707070;
+
+    --tran-03: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.4s ease;
+    --tran-05: all 0.4s ease;
+}
+
+body{
+    height: 87vh;
+    background-color: var(--body-color);
+}
+
+
+.navbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    padding: 10px 14px;
+    background-color: var(--navbar-color);
+    float: left;
+}
+
+.navbar .text{
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.navbar .image{
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar li{
+    height: 50px;
+    margin-top: 10px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.navbar li .icon{
+    display: flex;
+    min-width: 35px;
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+   
+}
+
+.navbar li .icon,
+.navbar li .text{
+    color: var(--text-color);
+    transition: var(--tran-02);
+    float: left;
+    padding-top:14px;
+    margin-left: 25px;
+}
+
+.navbar header{
+    position: relative;
+}
+
+.navbar .image-text img{
+    width: 40px;
+    border-radius: 6px;
+}
+
+.navbar header .image-text{
+    display: flex;
+    align-items: center;
+}
+
+header .image-text .header-text{
+    display: flex;
+    flex-direction: column;
+}
+
+.header-text .name{
+    font-weight: 600;
+}
+
+
+
+
+
+.navbar .menu-text{
+    margin-left: 20px;
+    color: grey;
+    margin-top: 40px;
+    font-size: 20px;
+    font-weight: 550;
+}
+
+.navbar li a{
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: var(--tran-04);
+}
+
+.navbar li a:hover{
+    background-color: var(--primary-color);
+}
+
+.navbar li a:hover .icon,
+.navbar li a:hover .text{
+    color:var(--body-color);;
+    
+}
+
+.navbar .bottom-content{
+    margin-top: 220px;
+}
+
+
+
+.container{
+    width: 1260px;
+    height: 500px;
+    margin-left: 250px;
+    justify-content: center;
+    text-align: center;
+}
+
+.container .title{
+    margin-top: 80px;
+    font-size: 30px;
+    margin-right: 150px;
+}
+
+label {
+    display: inline-block;
+    margin-right: 290px;
+    margin-top: 20px;
+  }
+
+  .email{
+        display: inline-block;
+        margin-right: 330px;
+        margin-top: 20px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="email"] {
+    border: 1px solid #dedede;
+    border-radius: 2px;
+    display: block;
+    margin-left: 440px;
+    font-size: 16px;
+    padding: 10px;
+    margin-top: 10px;
+    width: 40%;
+  }
+
+  .container button{
+    margin-left: 140px;
+    width: 300px;
+    margin-top: 30px;
+    height: 40px;
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+

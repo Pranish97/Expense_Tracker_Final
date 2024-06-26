@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Django Expense Tracker</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css" />
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>
+      * {
+        font-family: "Quicksand", sans-serif;
+      }
+    </style>
+</head>
+<body>
+    <nav class="navbar is-black" role="navigation" aria-label="main navigation" style="background-color: #4f517d">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'home' %}">
+                <img src="static/img/logo.png" width="30px" height="200px" />
+            </a>
+            <p style="margin-top: 15px;">Expense Tracker</p>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    {% if request.user.is_authenticated %}
+                    <a class="has-text-light mr-2"> Welcome, "{{ user.username }}" </a>
+                    <div class="buttons">
+                        <a href="{% url 'logout' %}" class="button is-danger">
+                            <strong>Logout</strong>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'register' %}" class="button is-success mr-2">
+                            <strong>Sign up</strong>
+                        </a>
+                        <a href="{% url 'login' %}" class="button is-light"> Log in </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="hero is-dark is-fullheight" style="background-color: #f7f7f7">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+                        <form method="POST" class="box">
+                            {% csrf_token %}
+
+                            <h1 class="has-text-centered mb-5 is-size-3">Signup</h1>
+
+                            <div class="field">
+                                <label for="username" class="label">Username</label>
+                                <div class="control has-icons-left">
+                                    {{ registerform.username }}
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </div>
+                                {% for error in registerform.username.errors %}
+                                    <p class="help is-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="field">
+                                <label for="email" class="label">Email</label>
+                                <div class="control has-icons-left">
+                                    {{ registerform.email }}
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                </div>
+                                {% for error in registerform.email.errors %}
+                                    <p class="help is-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="field">
+                                <label for="password1" class="label">Password</label>
+                                <div class="control has-icons-left">
+                                    {{ registerform.password1 }}
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </div>
+                                {% for error in registerform.password1.errors %}
+                                    <p class="help is-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="field">
+                                <label for="password2" class="label">Confirm password</label>
+                                <div class="control has-icons-left">
+                                    {{ registerform.password2 }}
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </div>
+                                {% for error in registerform.password2.errors %}
+                                    <p class="help is-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="field">
+                                <label for="" class="label">Phone Number</label>
+                                <div class="control has-icons-left">
+                                  {{ registerform.phone_number }}
+                                  <span class="icon is-small is-left">
+                                    <i class="fa fa-phone"></i>
+                                  </span>
+                                </div>
+                                {{registerform.phone_number.errors}}
+                              </div>
+
+                            <div class="field">
+                                <button class="button is-success" type="submit">Signup</button>
+                            </div>
+                            <div class="field">
+                                Already registered ? <a href="{% url 'login' %}">Login</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+</body>
+</html>

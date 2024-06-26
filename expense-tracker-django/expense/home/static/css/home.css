@@ -1,0 +1,428 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,600;1,100;1,200;1,300;1,400;1,600&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
+}
+
+
+:root{
+    --body-color:#E4E9F7;
+    --navbar-color: #FFF;
+    --primary-color:    #688fdc;
+    --primary-color-light:#F6F5FF;
+    --toggle-color:#DDD;
+    --text-color: #707070;
+
+    --tran-03: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.4s ease;
+    --tran-05: all 0.4s ease;
+}
+
+body{
+    height: 90vh;
+    background-color: var(--body-color);
+}
+
+
+.navbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    padding: 10px 14px;
+    background-color: var(--navbar-color);
+    float: left;
+}
+
+.navbar .text{
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.navbar .image{
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar li{
+    height: 50px;
+    margin-top: 10px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.navbar li .icon{
+    display: flex;
+    min-width: 35px;
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+   
+}
+
+.navbar li .icon,
+.navbar li .text{
+    color: var(--text-color);
+    transition: var(--tran-02);
+    float: left;
+    padding-top:14px;
+    margin-left: 25px;
+}
+
+.navbar header{
+    position: relative;
+}
+
+.navbar .image-text img{
+    width: 40px;
+    border-radius: 6px;
+}
+
+.navbar header .image-text{
+    display: flex;
+    align-items: center;
+}
+
+header .image-text .header-text{
+    display: flex;
+    flex-direction: column;
+}
+
+.header-text .name{
+    font-weight: 600;
+}
+
+
+
+
+
+.navbar .menu-text{
+    margin-left: 20px;
+    color: grey;
+    margin-top: 40px;
+    font-size: 20px;
+    font-weight: 550;
+}
+
+.navbar li a{
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: var(--tran-04);
+}
+
+.navbar li a:hover{
+    background-color: var(--primary-color);
+}
+
+.navbar li a:hover .icon,
+.navbar li a:hover .text{
+    color:var(--body-color);;
+    
+}
+
+.navbar .bottom-content{
+    margin-top: 220px;
+}
+
+.graph {
+  max-width: 800px; /* Adjust max-width as needed */
+  margin-left: 280px; /* Center align horizontally */
+  padding: 20px;
+  background-color: #f9f9f9; /* Light background color */
+  border: 1px solid #ccc; /* Gray border */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  border-radius: 5px; /* Rounded corners */
+  text-align: center; /* Center align text */
+}
+
+.graph h1 {
+  font-size: 24px; /* Heading font size */
+  margin-bottom: 10px;
+  margin-left: 250px; /* Space below heading */
+}
+
+#expenseChart {
+  width: 80%; /* Full width of parent container */
+  height: 400px; /* Set height as needed */
+}
+
+
+.container{
+    width: 1260px;
+    height: 500px;
+    margin-left: 250px;
+}
+
+.container .title{
+    margin-top: 60px;
+    margin-left: 20px;
+    font-weight: 400;
+}
+
+.container .balance-box{
+    background-color: white;
+    box-shadow: rgb(5, 5, 5);
+    margin-top: 20px;
+    width: 780px;
+    height: 150px;
+    padding: 40px;
+    border-radius: 10px;
+    margin-left: 30px;
+    float: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.container .balance-box .balance{
+    font-weight: 550;
+}
+
+#balance{
+    margin-top: 10px;
+    font-size: 25px;
+}
+
+.container .balance-box .income{
+    font-weight: 550;
+    margin-left: 300px;
+    margin-top: -58px;
+}
+
+#money-plus{
+    margin-left: 290px;
+    margin-top: 10px;
+    font-size: 25px;
+    color: rgb(38, 232, 38);
+}
+
+.container .balance-box .exp{
+    font-weight: 550;
+    margin-left:580px;
+    margin-top: -65px;
+}
+
+#money-minus{
+    margin-left: 570px;
+    margin-top: 10px;
+    color: red;
+    font-size: 25px;
+}
+
+
+.history-box {
+    float: left;
+    width: 400px;
+    height: 400px;
+    margin-left: 50px;
+    margin-top: -540px;
+    overflow-y: auto; 
+}
+
+  .money {
+    font-size: 20px;
+    letter-spacing: 1px;
+    margin: 5px 0;
+  }
+
+  .money.plus {
+    color: #2ecc71;
+  }
+
+  .money.minus {
+    color: #c0392b;
+  }
+
+  .container .limit-box{
+    float: left;
+    width: 400px;
+    height: 550px;
+    margin-left: 863px;
+    margin-top: -200px;
+    overflow-y: auto;
+  }
+
+  .limit-box h3 {
+    text-align: center;
+    color: #333;
+}
+
+.limit-box table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.limit-box th, .limit-box td {
+    padding: 10px;
+    text-align: left;
+}
+
+.limit-box th {
+    background-color: #f4f4f9;
+    font-weight: bold;
+}
+
+.limit-box td {
+    border-bottom: 1px solid #ddd;
+}
+
+.limit-box tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.limit-box tr:hover {
+    background-color: #f1f1f1;
+}
+
+.limit-box th, .limit-box td {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+  .container .add-transaction{
+    width: 760px;
+    height: 300px;
+    float: left;
+    margin-left: 40px;
+    margin-top: -300px;
+    margin-bottom: 30px;
+  
+}
+  .expense-type{
+    width: 250px;
+    height: 35px;
+  }
+
+  label {
+    display: inline-block;
+    margin: 10px 0;
+  }
+
+  .category{
+    margin-top: 10px;
+    margin-left: 0px;
+    width: 755px;
+    height: 45px;
+    padding-left: 5px;
+  }
+
+  input[type="text"],
+  input[type="number"] {
+    border: 1px solid #dedede;
+    border-radius: 2px;
+    display: block;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .btn {
+    cursor: pointer;
+    background-color: var(--primary-color);
+    box-shadow: var(--box-shadow);
+    color: #fff;
+    border: 0;
+    display: block;
+    font-size: 16px;
+    margin: 10px 0 30px;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .btn:focus,
+  .delete-btn:focus {
+    outline: 0;
+  }
+
+  .list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 40px;
+  }
+
+  .list li {
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding: 10px;
+    margin: 10px 0;
+  }
+
+  .list li.plus {
+    border-right: 5px solid #2ecc71;
+  }
+
+  .list li.minus {
+    border-right: 5px solid #c0392b;
+  }
+
+  .delete-btn {
+    background-color:red; 
+    color: white; 
+    font-weight: 600;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+
+  .list li:hover .delete-btn {
+    opacity: 1;
+  }
+
+  .update-btn {
+    background-color: var(--primary-color); 
+    color: white; 
+    font-weight: 600;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s; 
+  }
+
+  .update-btn:hover {
+    background-color: #2980b9; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+  }
+
+  .update-btn:active {
+    background-color: #1f618d; 
+    box-shadow: none;
+  }
+
+  .list span.plus {
+    color: #2ecc71;
+  }
+
+  .list span.minus {
+    color: #c0392b;
+  }
+
+  .list li {
+    display: flex;
+    justify-content: space-between; 
+  }
+
+  
+  .expense-info {
+    flex: 1; 
+  }
+
+  

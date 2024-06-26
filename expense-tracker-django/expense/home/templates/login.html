@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Django Expense Tracker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+      rel="stylesheet"
+    />
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            font-family: "Quicksand", sans-serif;
+        }
+        .errorlist li{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+  <nav class="navbar is-black" role="navigation" aria-label="main navigation" style="background-color: #4f517d">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="{% url 'home' %}">
+            <img src="static/img/logo.png" width="30px" height="200px" />
+        </a>
+        <p style="margin-top: 15px;">Expense Tracker</p>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-end">
+            <div class="navbar-item">
+                {% if request.user.is_authenticated %}
+                <a class="has-text-light mr-2"> Welcome, "{{ user.username }}" </a>
+                <div class="buttons">
+                    <a href="{% url 'logout' %}" class="button is-danger">
+                        <strong>Logout</strong>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'register' %}" class="button is-success mr-2">
+                        <strong>Sign up</strong>
+                    </a>
+                    <a href="{% url 'login' %}" class="button is-light"> Log in </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <section class="hero is-dark is-fullheight" style="background-color: #f7f7f7">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+                        <form method="POST" class="box">
+                            {% csrf_token %}
+
+                            <h1 class="has-text-centered mb-5 is-size-3">Login</h1>
+
+                            <div class="field">
+                                <label for="" class="label">Username</label>
+                                <div class="control has-icons-left">
+                                    {{ loginform.username }}
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="" class="label">Password</label>
+                                <div class="control has-icons-left">
+                                    {{ loginform.password }}
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <p class="error">{{ loginform.non_field_errors }}</p>
+                            <div class="field">
+                                <a href="#">Forgot password ?</a>
+                            </div>
+
+                            <div class="field">
+                                <button class="button is-success" type="submit">Login</button>
+                            </div>
+                            <div class="field">
+                                Need account ? <a href="{% url 'register' %}">Signup</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+      {% if messages %}
+          {% for message in messages %}
+              Toastify({
+                  text: "{{ message }}",
+                  duration: 3000, 
+                  gravity: "top",
+                  position: "right",
+                  backgroundColor: "linear-gradient(to right, #76c227, #81e11f)",
+                  stopOnFocus: true
+              }).showToast();
+          {% endfor %}
+      {% endif %}
+    </script>
+
+</body>
+</html>

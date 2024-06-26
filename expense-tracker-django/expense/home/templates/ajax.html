@@ -1,0 +1,58 @@
+<script>
+  $("#btnadd").click(function () {
+    let text = $("#text").val();
+    let amount = $("#amount").val();
+    let expense_type = $("#expense_type").val();
+    let csrf = $("input[name=csrfmiddlewaretoken]").val();
+
+    if (text == "") {
+      console.log("Please Enter Text Description");
+    } else if (amount == "") {
+      console.log("Please Enter Amount");
+    } else if (expense_type == "") {
+      console.log("Please Select Expense Type");
+    } else {
+      mydata = {
+        text: text,
+        amount: amount,
+        expense_type: expense_type,
+        csrfmiddlewaretoken: csrf,
+      };
+
+      console.log(mydata);
+
+      $.ajax({
+        url: "{% url 'save' %}",
+        method: "POST",
+        data: mydata,
+        success: function (data) {
+          console.log(data);
+          if (data.status == "save") {
+            console.log("Form Submitted Successfully");
+          }
+        },
+      });
+      $.ajax({
+        url: "{% url 'save' %}",
+        method: "POST",
+        data: mydata,
+        success: function (data) {
+          console.log(data);
+
+          if (data.status == "save") {
+            console.log("Form Submitted Successfully");
+          }
+        },
+      });
+    }
+  });
+
+  $("list").on("click", ".btn-del", function () {
+    console.log("Delete Button Clicked");
+
+    let id = $(this).attr("data-expid");
+    console.log(id);
+
+    mydata = { expid: id };
+  });
+</script>

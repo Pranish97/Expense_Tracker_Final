@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </script>
+    {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/forecast.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Welcome to Expense Tracker</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                  <img src="{% static 'img/logo.png' %}" alt="logo" />
+                </span>
+                <div class=" text header-text">
+                    <span class="name">Expense Tracker</span>
+                </div>
+            </div>
+      
+        </header>
+        <div class="menu-bar">
+            <div class="menu">
+      
+                <p class="menu-text">Menu</p>
+                <ul class="menu-links">
+                    <li class="nav-link">
+      
+                        <a href="/">
+                            <i class='bx bx-home icon'></i>
+                            <span class="text nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/recommend">
+                          <i class='bx bx-category icon'></i>
+                            <span class="text nav-text">Recommend</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                      <a href="{% url 'budget_profile' %}">
+                        <i class='bx bx-dollar icon'></i>
+                          <span class="text nav-text">Budget</span>
+                      </a>
+                  </li>
+                  <li class="nav-link">
+                    <a href="/set_limit">
+                      <i class='bx bx-tachometer icon'></i>
+                        <span class="text nav-text">Set Limit</span>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="/forecast">
+                      <i class='bx bx-bar-chart-alt icon'></i>
+                        <span class="text nav-text">Forecast</span>
+                    </a>
+                </li>
+      
+                </ul>
+            </div>
+            <div class="bottom-content">
+                <li>
+                    <a href="{% url 'update_profile' %}">
+                        <i class='bx bx-user icon'></i>
+                        <span class="text nav-text">Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/logout">
+                        <i class='bx bx-log-out icon'></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+            </div>
+        </div>
+      </nav>
+      <div class="container">
+        <h1>Expense Forecast for the Next 30 Days</h1>
+        <canvas id="forecastChart" height="900" width="1500"></canvas>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const forecastData = JSON.parse('{{ forecast_data|escapejs }}');
+            
+            const dates = forecastData.map(dataPoint => dataPoint.ds);
+            const predictedAmounts = forecastData.map(dataPoint => dataPoint.yhat);
+            const lowerBounds = forecastData.map(dataPoint => dataPoint.yhat_lower);
+            const upperBounds = forecastData.map(dataPoint => dataPoint.yhat_upper);
+    
+            const ctx = document.getElementById('forecastChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Predicted Amount',
+                        borderColor: 'blue',
+                        data: predictedAmounts,
+                        fill: false
+                    }, {
+                        label: 'Lower Bound',
+                        borderColor: 'green',
+                        data: lowerBounds,
+                        fill: false
+                    }, {
+                        label: 'Upper Bound',
+                        borderColor: 'red',
+                        data: upperBounds,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Expense Forecast'
+                    },
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            time: {
+                                unit: 'day'
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Date'
+                            }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Amount'
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
